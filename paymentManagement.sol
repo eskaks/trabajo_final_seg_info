@@ -23,27 +23,15 @@ contract correspondenciaEmpleo {
     address private empleado;            // Direccion del empleado.
     uint cobro;
 
-    address private owner;          // Dueño del contrato    --> NO SE SI HACE FALTA
+    address private owner;          // Dueño del contrato
     uint balance;
-
-    event Numero(string, string puesto, string, int horas_trabajadas, string, int horas_extra, string, int cobro);
-
-    // event: Almacena los argumentos recibidos en los registros de transacciones
-    // que se almacenan dentro de la blockchain.
-    // Para acceder: Utilizando direccion del contrato cuando este presente en la blockchain. (nos servira para ver su estado)
-
-
-
-    // Para conseguir que el contrato se despliegue rapidamente por la red ethereum ofrecemos 0'1 Ether a los mineros.
-    // Por CONCEPTO de Smart Contract en una red de BlockChaine, se debe pagar a los mineros para desplegar el contrato.
 
     constructor(){
         owner = msg.sender;
-        balance=0       ; 
+        balance=0; 
     }
     
     event Deposit(string, uint balance);
-
 
     function getDeposit() public{
         if (msg.sender == owner){
@@ -56,6 +44,7 @@ contract correspondenciaEmpleo {
             balance += msg.value;
         }
     }
+    
      function withdraw(uint quantity) public payable {
         if (msg.sender == owner && quantity <= balance) {
             address payable newOwner;
@@ -71,6 +60,7 @@ contract correspondenciaEmpleo {
         // memory: hemos de definir de donde sacamos el dato 'puesto'(Necesario a partir de la actualizacion)
           balance+=msg.value;
           address payable worker = payable(person);
+        
         if ( keccak256(bytes(puesto)) == keccak256(bytes("peon")) ){        // Comparamos las palabras pasandolo a Bytes
             cobro = uint(horas_trabajadas*7000 + horas_extra*10000);
             worker.transfer(cobro);

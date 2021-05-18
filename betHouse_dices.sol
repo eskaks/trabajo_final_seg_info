@@ -23,12 +23,6 @@ contract AdivinaNumero {
     address public owner;          // Dueño del contrato
     uint balance;
 
-    // event: Almacena los argumentos recibidos en los registros de transacciones
-    // que se almacenan dentro de la blockchain.
-    // Para acceder: Utilizando direccion del contrato cuando este presente en la blockchain. (nos servira para ver su estado)
-
-    // Para conseguir que el contrato se despliegue rapidamente por la red ethereum ofrecemos 0'1 Ether a los mineros   --> NO ENTIENDO
-
     // Costructor
      constructor(){
         owner = msg.sender;
@@ -61,10 +55,9 @@ contract AdivinaNumero {
     
     event Plot(string, uint dado1, string, uint dado2, string, uint premio);
 
-    function adivina(uint dice1Adivina, uint dice2Adivina) public payable {          // Del 1 al 6
-        // Tipo payable: Si lo adivina podra cobrar.
+    function adivina(uint dice1Adivina, uint dice2Adivina) public payable {          
+
         address player_np = msg.sender;
-        // Si quieres jugar paga esto.
         // 1ETH     -->      1000000000000000000 wei
 
         require(msg.value >= 200000000000000000, "El costo del juego es de 0.2 Ether.");
@@ -76,7 +69,7 @@ contract AdivinaNumero {
 
         balance += msg.value;
 
-        dice1 = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6 + 1;     // Numero dado 1
+        dice1 = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 6 + 1;         // Numero dado 1
         dice2 = uint(keccak256(abi.encodePacked(block.timestamp + 1, msg.sender))) % 6 + 1;     // Numero dado 2
         
         address payable player = payable(player_np);
@@ -101,6 +94,4 @@ contract AdivinaNumero {
 
     }
 
-    // Desplegar el contrato.
-    // Red de prueba de Ropsten, usamos metamask(cryptowallet con todas las cuentas)
 }
